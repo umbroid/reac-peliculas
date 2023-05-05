@@ -17,7 +17,7 @@ export default function FormGroupImagen(props: formGroupImagen) {
                 .catch(error => console.error(error))
 
             values[props.campo] = archivo;
-            setImagenURL('');
+            setImagenURL(''); 
         }
     }
 
