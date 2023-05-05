@@ -38,7 +38,7 @@ export default function SelectorMultiple(props: selectorMultipleProps){
             </div>
 
             <ul>
-                {props.seleccionados.map(item => <li key={item.llave} onClick={() => {}}>{item.valor}</li>)}
+                {props.seleccionados.map(item => <li key={item.llave} onClick={() => {deseleccionar(item)}}>{item.valor}</li>)}
             </ul>
         </div>
     )
