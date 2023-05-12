@@ -15,6 +15,7 @@ export default function CrearPeliculas(){
         <>
             <h3>Crear Pelicula</h3>
             <FormularioPeliculas
+                actoresSeleccionados={[]}
                 cinesNoSeleccionados={cines}
                 cinesSeleccionados={[]}
                 generosNoSeleccionados={generos}

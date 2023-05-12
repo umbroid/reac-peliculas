@@ -1,6 +1,7 @@
 import { Typeahead } from "react-bootstrap-typeahead";
 import { actorPeliculaDTO } from "./actores.model";
 import { ReactElement } from "react-markdown/lib/react-markdown";
+import { useState } from "react";
 
 export default function TypeAheadActores(props: typeAheadActoresProps){
 
@@ -11,6 +12,28 @@ export default function TypeAheadActores(props: typeAheadActoresProps){
     ]
 
     const seleccion: actorPeliculaDTO[] = []
+
+    const [elementoArrastrado, setElementoArrastrado] = useState<actorPeliculaDTO | undefined>(undefined)
+    
+    function manejarDragStart(actor: actorPeliculaDTO){
+        setElementoArrastrado(actor);
+    }
+
+    function manejarDragOver(actor: actorPeliculaDTO){
+        if(!elementoArrastrado){
+            return;
+        }
+        
+        if(actor.id !== elementoArrastrado.id){
+            const elementoArrastradoIndice = props.actores.findIndex(x => x.id === elementoArrastrado.id);
+            const actorIndice = props.actores.findIndex(x => x.id === actor.id);
+            const actores = [...props.actores];
+            actores[actorIndice] = elementoArrastrado;
+            actores[elementoArrastradoIndice] = actor;
+            props.onAdd(actores);
+        }
+    }
+
     return(
         <>
             <label>Actores</label>
@@ -43,7 +66,11 @@ export default function TypeAheadActores(props: typeAheadActoresProps){
 
             <ul className="list-group">
                 {props.actores.map(actor => 
-                    <li className="list-group-item list-group-item-action" key={actor.id}>
+                    <li 
+                        draggable={true}
+                        onDragStart={() => manejarDragStart(actor)}
+                        onDragOver={() => manejarDragOver(actor)}
+                        className="list-group-item list-group-item-action" key={actor.id}>
                         {props.listadoUI(actor)}
                         <span className="badge badge-primary badge-pill pointer"
                                 style={{marginLeft:'0.5rem'}}

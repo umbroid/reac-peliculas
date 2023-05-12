@@ -21,7 +21,7 @@ export default function FormularioPeliculas(props: formularioPeliculasProps){
     const [cinesSeleccionados, setCinesSeleccionados] = useState(mapear(props.cinesSeleccionados));
     const [cinesNoSeleccionados, setCinesNoSeleccionados] = useState(mapear(props.cinesNoSeleccionados));
 
-    const [actoresSeleccionados, setActoresSeleccionados] = useState<actorPeliculaDTO[]>([])
+    const [actoresSeleccionados, setActoresSeleccionados] = useState<actorPeliculaDTO[]>(props.actoresSeleccionados);
 
     function mapear(arreglo: {id: number, nombre: string}[]): selectorMultipleModel[]{
         return arreglo.map(valor => {
@@ -34,6 +34,7 @@ export default function FormularioPeliculas(props: formularioPeliculasProps){
             onSubmit={(valores, acciones) => {
                 valores.generosIds = generosSeleccionados.map(valor => valor.llave);
                 valores.cinesIds = cinesSeleccionados.map(valor => valor.llave);
+                valores.actores = actoresSeleccionados;
                 props.onSubmit(valores, acciones);
             }}
             validationSchema={Yup.object({
@@ -106,4 +107,5 @@ interface formularioPeliculasProps{
     generosNoSeleccionados: generoDTO[];
     cinesSeleccionados: cineDTO[];
     cinesNoSeleccionados: cineDTO[];
+    actoresSeleccionados: actorPeliculaDTO[];
 }
